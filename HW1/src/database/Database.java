@@ -352,6 +352,33 @@ public class Database {
 	    }
 	    return false; // If an error occurs, assume user doesn't exist
 	}
+	
+	/*******
+	 * <p> Method: boolean deleteUser(User user) </p>
+	 * 
+	 * <p> Description: Attempts to delete a user name from the table </p>
+	 * 
+	 * @param userName specifies the specific user that we want to determine if it is in the table.
+	 * 
+	 * @return true if the specified user is in the table else false.
+	 * 
+	 */
+	// Checks if a user already exists in the database based on their userName.
+	public boolean deleteUser(String userName) {
+	    String query = "DELETE FROM userDB WHERE userName = ?";
+	    try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+	        
+	        pstmt.setString(1, userName);
+	        
+	        int rowsDeleted = pstmt.executeUpdate();
+
+	        return rowsDeleted > 0;
+	        	
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return false; // If an error occurs, assume user doesn't exist
+	}
 
 	
 	/*******

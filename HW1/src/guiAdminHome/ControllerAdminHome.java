@@ -1,6 +1,8 @@
 package guiAdminHome;
 
 import database.Database;
+import guiNewAccount.ViewNewAccount;
+import javafx.scene.control.TextInputDialog;
 
 /*******
  * <p> Title: GUIAdminHomePage Class. </p>
@@ -116,6 +118,7 @@ public class ControllerAdminHome {
 		ViewAdminHome.alertNotImplemented.setHeaderText("One-Time Password Issue");
 		ViewAdminHome.alertNotImplemented.setContentText("One-Time Password Not Yet Implemented");
 		ViewAdminHome.alertNotImplemented.showAndWait();
+
 	}
 	// Testing - Nicholas Yeremin
 	/**********
@@ -127,11 +130,23 @@ public class ControllerAdminHome {
 	 * this function has not yet been implemented. </p>
 	 */
 	protected static void deleteUser() {
-		System.out.println("\n*** WARNING ***: Delete User Not Yet Implemented");
-		ViewAdminHome.alertNotImplemented.setTitle("*** WARNING ***");
-		ViewAdminHome.alertNotImplemented.setHeaderText("Delete User Issue");
-		ViewAdminHome.alertNotImplemented.setContentText("Delete User Not Yet Implemented");
-		ViewAdminHome.alertNotImplemented.showAndWait();
+		// Builds Prompt window to ask the user to 
+		ViewAdminHome.RemovingUserPrompt.setTitle("User Removal Window");
+		ViewAdminHome.RemovingUserPrompt.setHeaderText("Delete User Issue");
+		ViewAdminHome.RemovingUserPrompt.setContentText("Enter User to be deleted");
+		ViewAdminHome.RemovingUserPrompt.showAndWait();
+		
+		
+		
+		String username = ViewAdminHome.RemovingUserPrompt.getResult();
+		
+		System.out.print(username);
+		
+		if ( (theDatabase.doesUserExist(username))) {//&& (!theDatabase.getCurrentUsername().equals(username)) ) {
+			theDatabase.deleteUser(username);
+		}
+		
+
 	}
 	
 	/**********
