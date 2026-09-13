@@ -75,7 +75,7 @@ public class ControllerAddRemoveRoles {
 		// Clear what had been displayed
 		ViewAddRemoveRoles.theRootPane.getChildren().clear();
 		
-		// Defermine which of the two views to show to the user
+		// Determine which of the two views to show to the user
 		if (ViewAddRemoveRoles.theSelectedUser.compareTo("<Select a User>") == 0) {
 			// Only show the request to select a user to be updated and the ComboBox
 			ViewAddRemoveRoles.theRootPane.getChildren().addAll(
@@ -108,7 +108,7 @@ public class ControllerAddRemoveRoles {
 		// Add the list of widgets to the stage and show it
 		
 		// Set the title for the window
-		ViewAddRemoveRoles.theStage.setTitle("CSE 360 Foundation Code: Admin Opertaions Page");
+		ViewAddRemoveRoles.theStage.setTitle("CSE 360 Foundation Code: Admin Operations Page");
 		ViewAddRemoveRoles.theStage.setScene(ViewAddRemoveRoles.theAddRemoveRolesScene);
 		ViewAddRemoveRoles.theStage.show();
 	}
@@ -241,11 +241,41 @@ public class ControllerAddRemoveRoles {
 		ViewAddRemoveRoles.theRemoveRole = (String) ViewAddRemoveRoles.
 				combobox_SelectRoleToRemove.getValue();
 		
+		// Check how many roles a user has assigned to them before removing anything
+		int numRoles = 0;
+		if (theDatabase.getCurrentAdminRole()) {
+			numRoles++;
+		}
+		if (theDatabase.getCurrentNewRole1()) {
+			numRoles++;
+		}
+		if (theDatabase.getCurrentNewRole2()) {
+			numRoles++;
+		}
+		
 		// If the selection is the list header (e.g., "<Select a role>") don't do anything
 		if (ViewAddRemoveRoles.theRemoveRole.compareTo("<Select a role>") != 0) {
 			
+			// If the Admin performing this function selects self as the user to remove roles from,
+			// do not allow them to remove their own Admin role
+			if ((ViewAddRemoveRoles.theUser.getUserName().compareTo(ViewAddRemoveRoles.theSelectedUser) == 0)
+					&& (ViewAddRemoveRoles.theRemoveRole.compareTo("Admin") == 0)) {
+				// Issue alert message
+				ViewAddRemoveRoles.alertAdminRole.setTitle("Error: Role Not Removed");
+				ViewAddRemoveRoles.alertAdminRole.setHeaderText("Cannot remove the Admin role from self.");
+				ViewAddRemoveRoles.alertAdminRole.setContentText("Try removing a different role or return.");
+				ViewAddRemoveRoles.alertAdminRole.showAndWait();
+			}
+			// Do not remove a role from a user if it is the only role they have assigned
+		    else if (numRoles == 1) {
+				// Issue alert message
+				ViewAddRemoveRoles.alertSingleRole.setTitle("Error: Role Not Removed");
+				ViewAddRemoveRoles.alertSingleRole.setHeaderText("Cannot remove the only role a user has assigned to them.");
+				ViewAddRemoveRoles.alertSingleRole.setContentText("Try adding a different role first or return.");
+				ViewAddRemoveRoles.alertSingleRole.showAndWait();
+			}
 			// If an actual role was selected, update the database entry for that user for the role
-			if (theDatabase.updateUserRole(ViewAddRemoveRoles.theSelectedUser, 
+			else if (theDatabase.updateUserRole(ViewAddRemoveRoles.theSelectedUser, 
 					ViewAddRemoveRoles.theRemoveRole, "false") ) {
 				ViewAddRemoveRoles.combobox_SelectRoleToRemove = new ComboBox <String>();
 				ViewAddRemoveRoles.combobox_SelectRoleToRemove.setItems(FXCollections.
@@ -253,7 +283,7 @@ public class ControllerAddRemoveRoles {
 				ViewAddRemoveRoles.combobox_SelectRoleToRemove.getSelectionModel().
 					clearAndSelect(0);		
 				setupSelectedUser();
-			}				
+			}			
 		}
 	}
 	
