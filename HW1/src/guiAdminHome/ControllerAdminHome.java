@@ -1,6 +1,7 @@
 package guiAdminHome;
 
 import database.Database;
+<<<<<<< HEAD
 import javafx.scene.control.Button;
 import entityClasses.User;
 import guiNewAccount.ViewNewAccount;
@@ -12,6 +13,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+=======
+import guiNewAccount.ViewNewAccount;
+import javafx.scene.control.TextInputDialog;
+>>>>>>> origin/main
 
 /*******
  * <p> Title: GUIAdminHomePage Class. </p>

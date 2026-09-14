@@ -6,9 +6,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
@@ -73,7 +75,9 @@ public class ViewAddRemoveRoles {
 	protected static ComboBox <String> combobox_SelectRoleToAdd = new ComboBox <String>();	
 	protected static Label label_SelectRoleToBeRemoved = new Label("Select a role to be removed:");
 	protected static ComboBox <String> combobox_SelectRoleToRemove = new ComboBox <String>();
-		
+	protected static Alert alertAdminRole = new Alert(AlertType.INFORMATION);
+	protected static Alert alertSingleRole = new Alert(AlertType.INFORMATION);
+	
 	// This is a separator and it is used to partition the GUI for various tasks
 	protected static Line line_Separator4 = new Line(20, 525, width-20,525);
 	

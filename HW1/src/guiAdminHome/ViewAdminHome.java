@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
@@ -114,7 +115,10 @@ public class ViewAdminHome {
 	// return is to a fixed page as opposed to the actual page that invoked the pages.
 	protected static Button button_Logout = new Button("Logout");
 	protected static Button button_Quit = new Button("Quit");
-
+	
+	// GUI prompt for removing users.
+	public static TextInputDialog RemovingUserPrompt = new TextInputDialog("");
+	
 	// This is the end of the GUI objects for the page.
 	
 	// These attributes are used to configure the page and populate it with this user's information
@@ -267,6 +271,7 @@ public class ViewAdminHome {
     
 		setupButtonUI(button_Quit, "Dialog", 18, 250, Pos.CENTER, 300, 540);
 		button_Quit.setOnAction((_) -> {ControllerAdminHome.performQuit(); });
+		
 
 		// This is the end of the GUI initialization code
 		
