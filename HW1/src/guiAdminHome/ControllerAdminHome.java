@@ -1,8 +1,22 @@
 package guiAdminHome;
 
 import database.Database;
+<<<<<<< HEAD
+import javafx.scene.control.Button;
+import entityClasses.User;
+import guiNewAccount.ViewNewAccount;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+=======
 import guiNewAccount.ViewNewAccount;
 import javafx.scene.control.TextInputDialog;
+>>>>>>> origin/main
 
 /*******
  * <p> Title: GUIAdminHomePage Class. </p>
@@ -157,12 +171,53 @@ public class ControllerAdminHome {
 	 * <p> Description: Protected method that is currently a stub informing the user that
 	 * this function has not yet been implemented. </p>
 	 */
+	@SuppressWarnings("unchecked")
 	protected static void listUsers() {
-		System.out.println("\n*** WARNING ***: List Users Not Yet Implemented");
-		ViewAdminHome.alertNotImplemented.setTitle("*** WARNING ***");
-		ViewAdminHome.alertNotImplemented.setHeaderText("List User Issue");
-		ViewAdminHome.alertNotImplemented.setContentText("List Users Not Yet Implemented");
-		ViewAdminHome.alertNotImplemented.showAndWait();
+		
+		//Create window
+		Stage userListStage = new Stage();
+		userListStage.setTitle("User List");
+		
+		//Create user table to display
+		TableView<User> userTable = new TableView<>();
+		
+		//Create columns for usernames, names, emails, and roles in that order
+		TableColumn<User, String> usernameColumn = new TableColumn<>("Username");
+		usernameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getUserName()));
+		
+		TableColumn<User, String> nameColumn = new TableColumn<>("Name");
+		nameColumn.setCellValueFactory(data -> new SimpleStringProperty(formatName(data.getValue())));
+
+		TableColumn<User, String> emailColumn = new TableColumn<>("Email");
+		emailColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getEmailAddress()));
+
+		TableColumn<User, String> rolesColumn = new TableColumn<>("Role");
+		rolesColumn.setCellValueFactory(data -> new SimpleStringProperty(formatRoles(data.getValue())));
+		
+		//Add columns to table
+		userTable.getColumns().addAll(usernameColumn, nameColumn, emailColumn, rolesColumn);
+		
+		//Load users from database
+		userTable.getItems().addAll(theDatabase.getAllUsers());
+		
+		//Close button
+		Button closeButton = new Button("Close");
+		closeButton.setOnAction(event -> userListStage.close());
+		
+		VBox layout = new VBox(10);
+		
+		layout.getChildren().addAll(userTable, closeButton);
+		
+		layout.setPadding(new Insets(15));
+		
+		//Create scene and display window
+		Scene scene = new Scene(layout, 750, 450);
+		
+		
+		
+		userListStage.setScene(scene);
+		userListStage.show();
+		
 	}
 	
 	/**********
@@ -200,6 +255,78 @@ public class ControllerAdminHome {
 			return true;
 		}
 		return false;
+	}
+	
+	
+	/***********
+	 * <p>
+	 * 
+	 * Title: formatRoles () Method. </p>
+	 * 
+	 * <p> Description: Private method to format roles from booleans to descriptive string format. </p>
+	 * 
+	 * @param user  Holds User object to format roles for
+	 * @return
+	 */
+	private static String formatRoles(User user) {
+		//Start StringBuilder
+		StringBuilder roles = new StringBuilder();
+		
+		//Append roles if applicable.
+		if(user.getAdminRole()) {
+			roles.append("Admin");
+		}
+		
+		if(user.getNewRole1()) {
+			if (roles.length() > 0) {
+				roles.append(", ");
+			}
+			
+			roles.append("Student");
+			
+		}
+		
+		if(user.getNewRole2()) {
+			if (roles.length() > 0) {
+				roles.append(", ");
+			}
+			
+			roles.append("Reviewer");
+			
+		}
+		
+		//Return roles formatted to descriptive string
+		return roles.toString();
+	}
+	
+	/*********
+	 * <p>
+	 * 
+	 * Title: formatName () Method. </p>
+	 * 
+	 * <p> Description: Private method to format names into a displayable full name string format. </p>
+	 * 
+	 * @param user   Holds User object to format names for
+	 * @return
+	 */
+	private static String formatName(User user) {
+		
+		//String starting with first name
+		String name = user.getFirstName();
+		
+		//If the user has a middle name and it isn't blank, add it to string
+		if(user.getMiddleName() != null && !user.getMiddleName().isBlank()) {
+			
+			name += " " + user.getMiddleName();
+			
+		}
+		
+		//Add last name
+		name += " " + user.getLastName();		
+		
+		//Return full name
+		return name;
+	
 	}
 	
 	/**********
