@@ -244,6 +244,39 @@ public class Database {
 //		System.out.println(userList);
 		return userList;
 	}
+	
+	public List<User> getAllUsers(){
+		
+		List<User> users = new ArrayList<User>();
+		
+		String query = "SELECT * FROM userDB";
+		
+		try (PreparedStatement pstmt = connection.prepareStatement(query); ResultSet rs = pstmt.executeQuery()) {
+			
+			while (rs.next()) {
+				
+				User user = new User (
+						rs.getString("userName"),
+						rs.getString("password"),
+						rs.getString("firstname"),
+						rs.getString("middleName"),
+						rs.getString("lastName"),
+						rs.getString("preferredFirstName"),
+						rs.getString("emailAddress"),
+						rs.getBoolean("adminRole"),
+						rs.getBoolean("newRole1"),
+						rs.getBoolean("newRole2")			
+					);
+				
+					users.add(user);
+						
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return users;
+	}
 
 /*******
  * <p> Method: boolean loginAdmin(User user) </p>
