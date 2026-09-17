@@ -10,7 +10,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
@@ -137,25 +139,52 @@ public class ControllerAdminHome {
 	 * this function has not yet been implemented. </p>
 	 */
 	protected static void deleteUser() {
-		// Builds Prompt window to ask the user to 
+		// Builds Stage for user confirming they want to remove the specified userw
+		
+		Stage DeleteUserStage = new Stage();
+		DeleteUserStage.setTitle("Are You Sure?");
+		
 		ViewAdminHome.RemovingUserPrompt.setTitle("User Removal Window");
 		ViewAdminHome.RemovingUserPrompt.setHeaderText("Delete User Issue");
+		ViewAdminHome.RemovingUserPrompt.getEditor().clear(); // Clears textbox for next input
+		
+		// Display GUI Elements
 		ViewAdminHome.RemovingUserPrompt.setContentText("Enter User to be deleted");
 		ViewAdminHome.RemovingUserPrompt.showAndWait();
-		
-		
-		
+			
+		// Get user input result
 		String username = ViewAdminHome.RemovingUserPrompt.getResult();
 		
-		System.out.print(username);
-		
-		if ( (theDatabase.doesUserExist(username))) {//&& (!theDatabase.getCurrentUsername().equals(username)) ) {
-			theDatabase.deleteUser(username);
-		}
-		
-
-	}
+		if (username == null) { // user clicked cancel
+		}else if (theDatabase.getCurrentUsername().equals(username) ) { // Username is the same as currently logged in Admin
+			ViewAdminHome.alertCannotDeleteUser.setHeaderText("User cannot be the same as current Admin");
+			ViewAdminHome.alertCannotDeleteUser.showAndWait();
 	
+		} else if ( !theDatabase.doesUserExist(username) ) { // username does not exist
+			ViewAdminHome.alertCannotDeleteUser.setHeaderText("User is not found in system");
+			ViewAdminHome.alertCannotDeleteUser.showAndWait();
+
+		} else {
+			// Build and display UI for a user that is allowed to be deleted
+			Text confirmationTxt = new Text("Are You Sure You Would Like To Remove " + username);
+			
+			Button confirmButton = new Button("Yes");
+			confirmButton.setOnAction(event -> {theDatabase.deleteUser(username); 
+												DeleteUserStage.hide();} );
+			
+			Button denyButton = new Button("No");
+			denyButton.setOnAction(event -> {DeleteUserStage.hide();} );
+			
+			HBox layout = new HBox(10);
+			layout.getChildren().addAll(confirmationTxt, confirmButton, denyButton);
+			layout.setPadding(new Insets(15));
+	
+			Scene scene = new Scene(layout, 400, 100);
+			DeleteUserStage.setScene(scene);
+			DeleteUserStage.show();
+			}
+		}
+
 	/**********
 	 * <p> 
 	 * 

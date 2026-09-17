@@ -92,6 +92,8 @@ public class ViewAdminHome {
 	protected static Button button_SendInvitation = new Button("Send Invitation");
 	protected static Alert alertEmailError = new Alert(AlertType.INFORMATION);
 	protected static Alert alertEmailSent = new Alert(AlertType.INFORMATION);
+	protected static Alert alertCannotDeleteUser = new Alert(AlertType.INFORMATION);
+	protected static Alert alertAccountDeleted = new Alert(AlertType.INFORMATION);
 	
 	// This is a separator and it is used to partition the GUI for various tasks
 	private static Line line_Separator3 = new Line(20, 255, width-20, 255);
@@ -273,6 +275,15 @@ public class ViewAdminHome {
 		button_Quit.setOnAction((_) -> {ControllerAdminHome.performQuit(); });
 		
 
+		// Account Deletion GUI
+		alertCannotDeleteUser.setTitle("Account Cannot Be Deleted"); // Account cannot be deleted
+		alertCannotDeleteUser.setHeaderText("");
+		alertCannotDeleteUser.setContentText("Please Try Again With a Valid Username");
+		
+		alertAccountDeleted.setTitle("Account Successfully Deleted"); // Account has been deleted
+		alertAccountDeleted.setHeaderText("Account has Successfully been Deleted");
+		alertAccountDeleted.setContentText("");
+		
 		// This is the end of the GUI initialization code
 		
 		// Place all of the widget items into the Root Pane's list of children
