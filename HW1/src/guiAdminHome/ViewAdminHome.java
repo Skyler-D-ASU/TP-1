@@ -120,6 +120,7 @@ public class ViewAdminHome {
 	
 	// GUI prompt for removing users.
 	public static TextInputDialog RemovingUserPrompt = new TextInputDialog("");
+
 	
 	// This is the end of the GUI objects for the page.
 	

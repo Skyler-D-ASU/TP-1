@@ -14,8 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-
+import guiTools.EmailAddressRecognizer;
 /*******
  * <p> Title: GUIAdminHomePage Class. </p>
  * 
@@ -74,6 +73,16 @@ public class ControllerAdminHome {
 		if (invalidEmailAddress(emailAddress)) {
 			return;
 		}
+		String errStr = EmailAddressRecognizer.checkEmailAddress(emailAddress);
+		if (errStr.compareTo("") != 0) {
+			System.out.println(errStr);
+			ViewAdminHome.alertEmailError.setTitle("Password Error");
+			ViewAdminHome.alertEmailError.setHeaderText(errStr);
+			ViewAdminHome.alertEmailError.setContentText("Correct the Email and try again.");
+			ViewAdminHome.alertEmailError.showAndWait();
+			return;
+		}
+		
 		
 		// Check to ensure that we are not sending a second message with a new invitation code to
 		// the same email address.  

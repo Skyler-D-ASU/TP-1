@@ -1,7 +1,7 @@
-/module-info.class
-/applicationMain/
-/guiTools/
 /guiFirstAdmin/
-/guiNewAccount/
-/guiUserUpdate/
 /database/
+/guiAddRemoveRoles/
+/guiNewAccount/
+/guiTools/
+/guiUserUpdate/
+/guiAdminHome/
