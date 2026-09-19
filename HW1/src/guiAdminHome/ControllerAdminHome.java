@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import guiTools.EmailAddressRecognizer;
+import guiTools.DummyAccountGeneration;
 /*******
  * <p> Title: GUIAdminHomePage Class. </p>
  * 
@@ -174,6 +175,8 @@ public class ControllerAdminHome {
 			ViewAdminHome.alertCannotDeleteUser.showAndWait();
 
 		} else {
+			//DummyAccountGeneration.createDummyUsers(); // generates dummy account names for testing (see DummyAccountGeneration.java for my info)
+			
 			// Build and display UI for a user that is allowed to be deleted
 			Text confirmationTxt = new Text("Are You Sure You Would Like To Remove " + username);
 			
